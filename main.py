@@ -14,13 +14,24 @@
 
 import webapp2
 
+form="""
+<form action="/testform">
+    <input name="q"> <!--Name attribute adds a name
+    to your input in browser, in this case, ?q= input-->
+    <input type="submit"> <!--adds a submit button element-->
+</form>
+"""
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write('Hello, World!')
+        #self.response.headers['Content-Type'] = 'text/plain'
+        self.response.write(form)
 
+class TestHandler(webapp2.RequestHandler):
+    def get(self):
+        q = self.request.get("q")
+        self.response.out.write(q)
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-], debug=True)
+    ('/testform', TestHandler)], debug=True)
